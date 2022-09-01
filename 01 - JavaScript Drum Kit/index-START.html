@@ -59,6 +59,30 @@
 
 <script>
 
+  function pressKey(e){
+    console.log(e)
+    const audio =  document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    // prevent un-target keydown
+    if (!audio) return;
+
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+
+  function transitionStyleToggle(e) {
+    // if dom have css propertyName === 'transform'(unique for this case) remove .playing
+    if (e.propertyName !== 'box-shadow') return;
+
+    // if not add .playing 
+    e.target.classList.remove('playing');
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));
+  // when if any dom activate 'transitionend' => css animation event tirgger event
+  keys.forEach(key=>key.addEventListener('transitionend',transitionStyleToggle))
+  window.addEventListener('keydown',pressKey)
 </script>
 
 
