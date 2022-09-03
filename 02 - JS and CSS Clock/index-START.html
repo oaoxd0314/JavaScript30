@@ -62,12 +62,61 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%; /* change transrorm origin to right(100%) if want left it will be (0%) */
+      transform: rotate(90deg); /* move all colck point to potiosion start 90deg */
+      transition: all 0.05s;
+      transition-timing-function:cubic-bezier(0.175, 0.885, 0.32, 1.275); /* make spinner more like clock do*/
+    }
+
+    /*TODO pointer style*/ 
+    .hour-hand{
+
+    }
+    .min-hand{
+
+    }
+    .second-hand{
+      
     }
 
   </style>
 
   <script>
+    const START_DEG = 90
+    const secHand = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+    function setTime(){
+      const now = new Date();
+  
+      const sec = now.getSeconds()
+      const secDeg = START_DEG + pointerDeg(sec)
+      secHand.style.transform = `rotate(${secDeg}deg)`;
+
+      const min = now.getMinutes()
+      const minDeg = START_DEG + pointerDeg(min) + childDeg(sec)
+      minHand.style.transform = `rotate(${minDeg}deg)`;
+
+      const hour = now.getHours()
+      const hourDeg = START_DEG + ((hour/12)*360) + ((min/60)*30)
+      hourHand.style.transform = `rotate(${hourDeg}deg)`
+    }
+
+    // Every time have diff format => NOT complete
+    function pointerDeg( number ){
+    // multi 360 is because whole circle is 360deg
+      return ((number / 60) * 360)
+    }
+
+    function childDeg(number){
+      // every parent got 360/60 = 6 can be in same step
+      return ((number / 60) * 6)
+    }
+
+    setInterval(setTime, 1000);
+
+    setTime()
 
   </script>
 </body>
