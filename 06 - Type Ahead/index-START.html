@@ -17,6 +17,61 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+const cities = []
+fetch(endpoint).then(async Blob=>{
+  cities.push(...await Blob.json())
+})
+
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    /**
+     * regex rule
+     * g：全域比對（Global match）
+     * i：忽略大小寫（Ignore case）
+     *  gi：全域比對並且忽略大小寫
+     */
+    const regex = new RegExp(wordToMatch, 'gi');
+    return place.city.match(regex) || place.state.match(regex)
+  });
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function displayMatches(e){
+
+  if (e.key === "Enter") {
+    return ;
+  }
+
+  const matchArray = findMatches(this.value, cities);
+  const compareValue = new RegExp(this.value, 'gi');
+  
+  const html = matchArray.map(place =>{
+    // str.replace(regexp|substr, newSubstr|function)
+    // it mean place.city will change compare `compareValue` 's string to <span><span> tag 
+    const highlightCity = place.city.replace(compareValue,`<span class="hl">${this.value}</span>`)
+    const hightlightState = place.state.replace(compareValue,`<span class="hl">${this.value}</span>`)
+    return `<li>
+        <span class="name">${highlightCity}, ${hightlightState}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>
+      `
+  }).join('') // this join prevent each element have ',' between each other 
+
+  suggestions.innerHTML = html;
+}
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
+
+// prevent default refresh
+searchInput.addEventListener("keypress",(e)=> e.key === "Enter" && event.preventDefault());
+
 </script>
 </body>
 </html>
