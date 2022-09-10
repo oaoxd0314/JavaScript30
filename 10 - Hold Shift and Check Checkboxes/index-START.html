@@ -96,6 +96,37 @@
   </div>
 
 <script>
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+  let lastChecked;
+  
+  
+  function clickHandler(e){
+    let isBetween = false
+    if(e.shiftKey && this.checked){
+      checkboxes.forEach(checkbox=>{
+        const isflag = checkbox ===this || checkbox === lastChecked
+        if(isflag){
+          // trigger is ok to check or not
+          // is firstcheck => toggle open!
+          // then checked!, checked!, checked!, ...
+          // till lastest checkbox => toggle close
+          isBetween = !isBetween
+        }
+
+        if(isBetween){
+          checkbox.checked = true
+        }
+        
+      })
+    }
+    lastChecked = this;
+    // console.log(e)
+    // console.dir(this)
+  }
+
+
+  checkboxes.forEach(checkbox=>checkbox.addEventListener('click',clickHandler))
 </script>
 </body>
 </html>

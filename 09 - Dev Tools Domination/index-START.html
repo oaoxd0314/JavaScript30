@@ -18,28 +18,70 @@
     }
 
     // Regular
-
+    let var1 = 'tt'
+    console.log(`hey this string is ${var1}`)
     // Interpolated
 
     // Styled
+    console.log('%c this is high light','font-size: 50px; background: blue')
 
     // warning!
+    console.warn('OH NOOO');
 
     // Error :|
+    console.error('OH NOOO');
 
     // Info
+    console.info('Crocodiles eat 3-4 people per year');
 
     // Testing
+    const p = document.querySelector('p');
+    console.assert((0.1+0.2) === 0.3, 'fuck javascript')
 
     // clearing
+    console.clear() // clear  all before console
 
     // Viewing DOM Elements
+    console.log(p); // console dom element in <tag></tag>
+    console.dir(p); // console dom element in object (can see proprety )
 
     // Grouping together
-
+    dogs.forEach(dog => {
+      // add all info in group `${dogname}`
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    }); 
     // counting
+    // each console count well sum the number all the same thing beofre
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
+    console.count('Steve');
 
+    console.clear()
     // timing
+
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+      // transfer object to table
+    console.table(dogs);
 
   </script>
 </body>
