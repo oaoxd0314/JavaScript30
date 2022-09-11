@@ -16,7 +16,7 @@ function togglePlay() {
 function updateButton() {
   const icon = this.paused ? '►' : '❚ ❚';
   console.log(icon);
-  toggle.textContent = icon;
+  mainButton.textContent = icon;
 }
 
 function skip() {
@@ -43,7 +43,7 @@ video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
 video.addEventListener('timeupdate', handleProgress);
 
-toggle.addEventListener('click', togglePlay);
+mainButton.addEventListener('click', togglePlay);
 skipButtons.forEach(button => button.addEventListener('click', skip));
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
