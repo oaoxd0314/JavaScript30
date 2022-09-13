@@ -7,6 +7,25 @@
 </head>
 <body>
 <script>
+  const pressed = []
+  const answer = 'wow'
+
+  window.addEventListener('keyup',(e)=>{
+    pressed.push(e.key)
+    // when splice(start,count) 's count > 1 then it will actully delect something
+    // so it's mean when pressed > answer's count => this time to remove more than answer count
+    // and also it's start from  -(answer.length+1)
+    // when array's index is negative it's counting like this : [-4,-3,-2,-1]
+    // so when it say splice(-4,1)  === splice(0,1)
+    // but in this smart way => it can control when pressed > answer, then remove the element from start
+    // working like queue with if condiction
+    pressed.splice(-answer.length-1,pressed.length-answer.length)
+
+    if(pressed.join('').includes(answer)){
+      //celebrete !!
+      cornify_add(); 
+    }
+  })
 </script>
 </body>
 </html>

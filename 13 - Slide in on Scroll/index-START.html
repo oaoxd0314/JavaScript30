@@ -58,6 +58,30 @@
       };
     }
 
+    const sliderImages = document.querySelectorAll('.slide-in');
+    
+    function checkSlide() {
+      // the screen bottom in browser ( the actully page can see bootom ) calculate function : innerheight + scrollY ( whole  )
+      // innerheight => browser actully height( screen - browser tab - browser book mark )
+      // scrollY => scrollbar locate
+      sliderImages.forEach(image=>{
+        const slideInAt = (window.scrollY + window.innerHeight) - image.height / 3;
+        // offset Top / bottom / left / right  mean the child's distance from the parent inside top(miner padding)
+        const imageBottom = image.offsetTop + image.height;
+        const isShown = slideInAt > image.offsetTop;
+        const isNotPast = window.scrollY < imageBottom; 
+
+        if(isShown&&isNotPast){
+          image.classList.add('active');
+        }else{
+          image.classList.remove('active');
+        }
+      })
+    }
+
+    // debounce wrapper function prevent call the callback function to frequently
+    window.addEventListener('scroll', debounce(checkSlide));
+
   </script>
 
   <style>
