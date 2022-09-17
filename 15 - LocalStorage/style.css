@@ -54,11 +54,14 @@ h2 {
 
 .plates label {
   flex: 1;
-  cursor: pointer;
+  cursor: cell;
 }
 
 .plates input {
   display: none;
+}
+.plates icon {
+  cursor: pointer
 }
 
 .plates input + label:before {
