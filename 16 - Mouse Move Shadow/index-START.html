@@ -1,40 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Mouse Shadow</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <!-- contenteditable doc: https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/contenteditable -->
+      <!-- it can allow user to edit a part of dom element -->
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
 
-  <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
 
-  <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+      body {
+        margin: 0;
+      }
 
-  body {
-    margin: 0;
-  }
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
-  </style>
+    <script>
+      const hero = document.querySelector('.hero');
+      const text = document.querySelector('h1');
+      const walk = 500; //unit px
 
-<script>
-</script>
-</body>
+      function handleMouseMove(e) {
+        // given var width , height = hero.offsetWidth, hero.offsetHeight same as down
+        const { offsetWidth: width, offsetHeight: height } = hero;
+        let { offsetX: x, offsetY: y } = e;
+
+        // this is mean the ele you assign the function for
+        // target is the thing you get/trigger from
+        // in this part this is 'hero', e.target is the mouse we hover
+        // so when we hover in text, this if will be trigger
+        if (this !== e.target) {
+          // because we are not in hero , we are in the child ele
+          // so , we need to add offset( length from the parent element )
+          // then we can get the precisely x,y
+          x = x + e.target.offsetLeft;
+          y = y + e.target.offsetTop;
+        }
+
+        const xWalk = Math.round((x / width) * walk - walk / 2);
+        const yWalk = Math.round((y / height) * walk - walk / 2);
+        console.log(xWalk, yWalk);
+
+        // each set has their own proprety like
+        // doc https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-shadow
+        // offset-x | offset-y | blur-radius | color
+        text.style.textShadow = `
+          ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7),
+          ${xWalk * -1}px ${yWalk}px 0 rgba(0,255,255,0.7),
+          ${yWalk}px ${xWalk * -1}px 0 rgba(0,255,0,0.7),
+          ${yWalk * -1}px ${xWalk}px 0 rgba(0,0,255,0.7)
+        `;
+      }
+
+      hero.addEventListener('mousemove', handleMouseMove);
+    </script>
+  </body>
 </html>
