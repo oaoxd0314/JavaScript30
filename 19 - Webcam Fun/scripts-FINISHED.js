@@ -52,8 +52,12 @@ function takePhoto() {
   snap.currentTime = 0;
   snap.play();
 
-  // take the data out of the canvas
+  // 設定 canvas 的匯出格式
   const data = canvas.toDataURL('image/jpeg');
+  /**
+   * 創造 <a> <href src=""/> </a>
+   * 的 dom 元件下載圖片
+   */
   const link = document.createElement('a');
   link.href = data;
   link.setAttribute('download', 'handsome');

@@ -55,6 +55,29 @@ function paintToCanvas() {
   }, 16);
 }
 
+function takePhoto() {
+  // sond effect "kAkIN!" play
+  snap.currentTime = 0;
+  snap.play();
+
+  // take the data out of the canvas
+  const data = canvas.toDataURL('image/jpeg');
+  const link = document.createElement('a');
+  link.href = data;
+  link.setAttribute('download', 'handsome');
+  link.innerHTML = `<img src="${data}" alt="Handsome Man" />`;
+  strip.insertBefore(link, strip.firstChild);
+}
+
+function redEffect(pixels) {
+  for (let i = 0; i < pixels.data.length; i += 4) {
+    pixels.data[i + 0] = pixels.data[i + 0] + 200; // RED
+    pixels.data[i + 1] = pixels.data[i + 1] - 50; // GREEN
+    pixels.data[i + 2] = pixels.data[i + 2] * 0.5; // Blue
+  }
+  return pixels;
+}
+
 function rgbSplit(pixels) {
   for (let i = 0; i < pixels.data.length; i += 4) {
     pixels.data[i - 150] = pixels.data[i + 0]; // RED
