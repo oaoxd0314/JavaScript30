@@ -6,12 +6,53 @@
 </head>
 <body>
 
+  <!-- Doc https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/contenteditable -->
+  <!-- 是否可以被用戶編輯 -->
   <div class="words" contenteditable>
   </div>
 
 <script>
+  /**
+   * DOC https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
+   */
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition()
 
+  /**
+   * Controls whether interim results should be returned (true) or not (false.) Interim results are results that are not yet final (e.g. the SpeechRecognitionResult.isFinal property is false.)
+   * 是否返回臨時結果
+   */
+  recognition.interimResults = true;
+  recognition.lang = 'zh-TW';
+  let p = document.createElement('p')
+
+  const words = document.querySelector('.words')
+  words.appendChild(p)
+
+  recognition.addEventListener('result',(e)=>{
+    const transcript = Array.from(e.results).map(speech=>{
+      return speech[0].transcript
+    }).join('') // array to string
+
+    // 這裡會不斷隨著講話新增
+    p.textContent = transcript;
+
+    // 直到當講話中斷 > 創造新的 p LABEL
+    if (e.results[0].isFinal) {
+      console.log(transcript)
+        p = document.createElement('p');
+        words.appendChild(p);
+    }
+    
+  })
+
+  // 當整個監聽事件結束 重新啟動新一輪監聽 
+  recognition.addEventListener('end', recognition.start);
+  /**
+   * 開始記錄(啟用這個 web api)
+   * Starts the speech recognition service listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition. 
+   * */ 
+  recognition.start()
 
 </script>
 
