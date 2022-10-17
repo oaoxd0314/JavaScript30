@@ -27,6 +27,40 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+
+    const triggers = document.querySelectorAll('a')
+    const highlight = document.createElement('apan')
+
+    highlight.classList.add('highlight');
+    document.body.append(highlight)
+
+    function highlightLink(){
+      /**
+       * doc: https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+       * @variable rectobj [https://developer.mozilla.org/en-US/docs/Web/API/DOMRect]()  
+       * providing information about the size of an element and its position relative to the viewport
+       * basic like where is the element and how big it's look like
+       */ 
+       const linkCoords = this.getBoundingClientRect();
+
+       const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        top: linkCoords.top + window.scrollY,
+        left: linkCoords.left + window.scrollX
+       }
+
+       console.log(window.scrollX,window.scrollY)
+
+       highlight.style.width = `${coords.width}px`
+       highlight.style.height = `${coords.height}px`
+
+      highlight.style.transform = `translate(${coords.left}px,${coords.top}px)`
+    }
+
+    triggers.forEach(a=>a.addEventListener('mouseenter',highlightLink))
+
+
   </script>
 </body>
 </html>
