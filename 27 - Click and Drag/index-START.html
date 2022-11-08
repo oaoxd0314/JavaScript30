@@ -49,7 +49,7 @@
     startX = e.pageX - slider.offsetLeft
 
     //doc https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollLeft
-    //Element.scrollLeft 属性可以读取或设置元素滚动条到元素左边的距离。     
+    //Element.scrollLeft 属性可以读取或设置元素 "滚动条" 到 "元素左边" 的距离。     
     scrollLeft = slider.scrollLeft
   });
 
@@ -72,10 +72,10 @@
   slider.addEventListener('mousemove', (e) => {
     if (!isDown) return;  // stop the fn from running
     e.preventDefault() // prevent brower( out side the slider ) effect byu this
-    const x = e.pageX - slider.offsetLeft
+    const x = e.pageX - slider.offsetLeft // 在 slider 內 的真正 x
 
-    const walk = x - startX // haw far the mouse walk from startX(mousedown)
-    slider.scrollLeft =  scrollLeft - walk // settle down the slider actully scroll postion 
+    const walk =  startX - x // haw far the mouse walk from startX(mousedown)
+    slider.scrollLeft =  scrollLeft + walk // settle down the slider actully scroll postion 
   });
 </script>
 
