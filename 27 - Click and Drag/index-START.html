@@ -35,6 +35,48 @@
   </div>
 
 <script>
+  const slider = document.querySelector('.items')
+  let isDown = false
+  let startX ;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active')
+    // e.pageX is where this element locateX in Page
+    // but we need to know where i cilck from  slider not page( because we are not work outside slider )
+    // so we need to minner slider's offsetLeft
+    startX = e.pageX - slider.offsetLeft
+
+    //doc https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollLeft
+    //Element.scrollLeft 属性可以读取或设置元素滚动条到元素左边的距离。     
+    scrollLeft = slider.scrollLeft
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active')
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active')
+  });
+
+  slider.addEventListener('wheel',(e)=>{
+    //TODO use wheel scroll slider
+    e.preventDefault()
+    console.log(e.deltaX,e.deltaY)
+  })
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;  // stop the fn from running
+    e.preventDefault() // prevent brower( out side the slider ) effect byu this
+    const x = e.pageX - slider.offsetLeft
+
+    const walk = x - startX // haw far the mouse walk from startX(mousedown)
+    slider.scrollLeft =  scrollLeft - walk // settle down the slider actully scroll postion 
+  });
 </script>
 
   </body>
